@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f1a;
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p { color: #888; margin-top: 8px; }
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            padding: 24px 40px;
+            text-align: center;
+            min-width: 150px;
+        }
+        .stat-card h2 { font-size: 36px; }
+        .stat-card p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a2e;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        th {
+            background: #16213e;
+            padding: 16px;
+            text-align: left;
+            color: #667eea;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #2a2a3e;
+            color: #ccc;
+        }
+        tr:last-child td { border-bottom: none; }
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Phishing Simulation Dashboard</h1>
+        <p>Security Awareness Campaign Results</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <h2>{{ data|length }}</h2>
+            <p>Total Campaigns</p>
+        </div>
+        <div class="stat-card">
+            <h2>{% for d in data %}{{ d.clicks }}{% endfor %}</h2>
+            <p>Total Clicks</p>
+        </div>
+        <div class="stat-card">
+            <h2>{% for d in data %}{{ d.submissions }}{% endfor %}</h2>
+            <p>Total Submissions</p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Campaign Name</th>
+                <th>Created At</th>
+                <th>Clicks</th>
+                <th>Submissions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td><span class="badge">{{ d.name }}</span></td>
+                <td>{{ d.created_at|date:"d M Y" }}</td>
+                <td>{{ d.clicks }}</td>
+                <td>{{ d.submissions }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center; color:#888;">No campaigns yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
